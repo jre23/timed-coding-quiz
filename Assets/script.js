@@ -3,8 +3,6 @@
 // h1 title tag
 var h1Tag = document.createElement("h1");
 h1Tag.textContent = "Coding Quiz Challenge";
-h1Tag.style.textAlign = "center";
-h1Tag.style.marginTop = "75px";
 h1Tag.setAttribute("id", "title")
 
 document.body.appendChild(h1Tag);
@@ -17,7 +15,6 @@ p1Tag.style.marginLeft = "auto";
 p1Tag.style.marginRight = "auto";
 p1Tag.style.width = "50%";
 p1Tag.style.display = "block";
-p1Tag.style.fontWeight = "bold";
 
 document.body.appendChild(p1Tag);
 
@@ -27,8 +24,6 @@ startQuizButton.textContent = "Start Quiz";
 startQuizButton.style.marginLeft = "auto";
 startQuizButton.style.marginRight = "auto";
 startQuizButton.style.display = "block";
-startQuizButton.style.backgroundColor = "rgb(117,92,150)";
-startQuizButton.style.color = "white";
 startQuizButton.setAttribute("id", "startQuiz")
 
 document.body.appendChild(startQuizButton);
@@ -41,7 +36,6 @@ viewHighScoresPTag.style.top = "0";
 viewHighScoresPTag.style.left = "0";
 viewHighScoresPTag.style.marginTop = "4px";
 viewHighScoresPTag.style.marginLeft = "4px";
-viewHighScoresPTag.style.fontWeight = "bold";
 viewHighScoresPTag.style.color = "rgb(117,92,150)";
 viewHighScoresPTag.setAttribute("id", "viewHighScores");
 
@@ -56,11 +50,36 @@ timerPTag.style.top = "0";
 timerPTag.style.right = "0";
 timerPTag.style.marginTop = "4px";
 timerPTag.style.marginRight = "4px";
-timerPTag.style.fontWeight = "bold";
 
 document.body.appendChild(timerPTag);
 
-// create a div container for the buttons
+// Create a questions and answers array 
+var questionsAndAnswers = [{
+        q: "Commonly used data types DO NOT include:",
+        a: "1. strings",
+        b: "2. booleans",
+        c: "3. alerts",
+        d: "4. numbers"
+    },
+    {
+        q: "The condition in an if / else statement is enclosed within ____.",
+        a: "1. quotes",
+        b: "2. curly brackets",
+        c: "3. parenthesis",
+        d: "4. square brackets"
+    },
+    {
+        q: "Arrays in JavaScript can be used to store ____.",
+        a: "1. numbers and strings",
+        b: "2. other arrays",
+        c: "3. booleans",
+        d: "4. all of the above"
+    },
+];
+
+
+
+// create a div container for the Go Back and Clear High Scores buttons
 var buttonContainer = document.createElement("div");
 buttonContainer.style.textAlign = "center";
 buttonContainer.style.marginLeft = "auto";
@@ -72,21 +91,20 @@ buttonContainer.setAttribute("id", "container")
 var goBackButton = document.createElement("button");
 goBackButton.textContent = "Go Back";
 goBackButton.style.marginRight = "6px";
-goBackButton.style.backgroundColor = "rgb(117,92,150)";
-goBackButton.style.color = "white";
 goBackButton.setAttribute("id", "goBack")
 
 // Create Clear High Scores button 
 var clearHighScoresButton = document.createElement("button");
 clearHighScoresButton.textContent = "Clear High Scores";
 clearHighScoresButton.style.marginLeft = "6px";
-clearHighScoresButton.style.backgroundColor = "rgb(117,92,150)";
-clearHighScoresButton.style.color = "white";
 clearHighScoresButton.setAttribute("id", "clearHighScores")
 
 // when View High Scores is clicked, show different h1 title, show high scores, show an input form for the user to enter a high score, show a Go Back button that'll lead back to the starting page, show a Clear High Scores button that'll clear the high scores list 
 var clickViewHighScores = document.querySelector("#viewHighScores");
-clickViewHighScores.addEventListener("click", function () {
+clickViewHighScores.addEventListener("click", goToHighScores);
+
+function goToHighScores() {
+
     document.body.removeChild(timerPTag);
     document.body.removeChild(viewHighScoresPTag);
     document.body.removeChild(startQuizButton);
@@ -99,7 +117,7 @@ clickViewHighScores.addEventListener("click", function () {
 
     var clickGoBack = document.querySelector("#goBack");
     clickGoBack.addEventListener("click", goBackToStart);
-});
+}
 
 function goBackToStart() {
     buttonContainer.removeChild(clearHighScoresButton);
