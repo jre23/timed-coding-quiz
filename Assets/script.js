@@ -1,8 +1,12 @@
 // title page
 
 // h1 title tag
-document.querySelector("h1").style.textAlign = "center";
-h1Title = "";
+var h1Tag = document.createElement("h1");
+h1Tag.textContent = "Coding Quiz Challenge";
+h1Tag.style.textAlign = "center";
+h1Tag.setAttribute("id", "title")
+
+document.body.appendChild(h1Tag);
 
 // p tag with code quiz instructions
 var p1Tag = document.createElement("p");
