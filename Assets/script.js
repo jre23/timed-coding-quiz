@@ -4,8 +4,25 @@
 var h1Tag = document.createElement("h1");
 h1Tag.textContent = "Coding Quiz Challenge";
 h1Tag.setAttribute("id", "title")
+h1Tag.style.textAlign = "center";
 
 document.body.appendChild(h1Tag);
+
+// h2 question tag
+var h2Tag = document.createElement("h2");
+h2Tag.textContent = "";
+h2Tag.setAttribute("id", "titleQuestions");
+
+// h2 container 
+var h2TagContainer = document.createElement("div");
+h2TagContainer.style.textAlign = "center";
+
+// h2 second container
+var h2TagInsideContainer = document.createElement("div");
+h2TagInsideContainer.style.textAlign = "left";
+h2TagInsideContainer.style.marginLeft = "auto";
+h2TagInsideContainer.style.marginRight = "auto";
+h2TagInsideContainer.style.display = "inline-block";
 
 // p tag with code quiz instructions
 var p1Tag = document.createElement("p");
@@ -37,7 +54,7 @@ viewHighScoresPTag.style.left = "0";
 viewHighScoresPTag.style.marginTop = "4px";
 viewHighScoresPTag.style.marginLeft = "4px";
 viewHighScoresPTag.style.color = "rgb(117,92,150)";
-viewHighScoresPTag.setAttribute("id", "viewHighScores");
+viewHighScoresPTag.setAttribute("id", "viewHighScoresFromStart");
 
 document.body.appendChild(viewHighScoresPTag);
 
@@ -53,7 +70,7 @@ timerPTag.style.marginRight = "4px";
 
 document.body.appendChild(timerPTag);
 
-// Create a questions and answers array 
+// Create a questions and answers array
 var questionsAndAnswers = [{
         q: "Commonly used data types DO NOT include:",
         a: "1. strings",
@@ -78,7 +95,6 @@ var questionsAndAnswers = [{
 ];
 
 
-
 // create a div container for the Go Back and Clear High Scores buttons
 var buttonContainer = document.createElement("div");
 buttonContainer.style.textAlign = "center";
@@ -100,23 +116,65 @@ clearHighScoresButton.style.marginLeft = "6px";
 clearHighScoresButton.setAttribute("id", "clearHighScores")
 
 // when View High Scores is clicked, show different h1 title, show high scores, show an input form for the user to enter a high score, show a Go Back button that'll lead back to the starting page, show a Clear High Scores button that'll clear the high scores list 
-var clickViewHighScores = document.querySelector("#viewHighScores");
-clickViewHighScores.addEventListener("click", goToHighScores);
 
-function goToHighScores() {
+var clickViewHighScoresFromStart = document.querySelector("#viewHighScoresFromStart");
+clickViewHighScoresFromStart.addEventListener("click", goToHighScoresFromStart);
 
-    document.body.removeChild(timerPTag);
-    document.body.removeChild(viewHighScoresPTag);
+function goToHighScoresFromStart() {
+    if (viewHighScoresPTag.id === "viewHighScoresFromStart") {
+
+        document.body.removeChild(timerPTag);
+        document.body.removeChild(viewHighScoresPTag);
+        document.body.removeChild(startQuizButton);
+        document.body.removeChild(p1Tag);
+        title.textContent = "High Scores";
+
+        document.body.appendChild(buttonContainer);
+        buttonContainer.appendChild(goBackButton);
+        buttonContainer.appendChild(clearHighScoresButton);
+
+        var clickGoBack = document.querySelector("#goBack");
+        clickGoBack.addEventListener("click", goBackToStart);
+    }
+}
+
+var clickStartQuiz = document.querySelector("#startQuiz");
+clickStartQuiz.addEventListener("click", userTakesTest);
+
+function userTakesTest() {
     document.body.removeChild(startQuizButton);
     document.body.removeChild(p1Tag);
-    title.textContent = "High Scores";
+    document.body.removeChild(h1Tag);
+    h2Tag.textContent = questionsAndAnswers[0].q;
 
-    document.body.appendChild(buttonContainer);
-    buttonContainer.appendChild(goBackButton);
-    buttonContainer.appendChild(clearHighScoresButton);
+    document.body.appendChild(h2TagContainer);
+    h2TagContainer.appendChild(h2TagInsideContainer);
+    h2TagInsideContainer.appendChild(h2Tag);
 
-    var clickGoBack = document.querySelector("#goBack");
-    clickGoBack.addEventListener("click", goBackToStart);
+    viewHighScoresPTag.setAttribute("id", "viewHighScoresFromQuiz");
+    var clickViewHighScoresFromQuiz = document.querySelector("#viewHighScoresFromQuiz");
+    clickViewHighScoresFromQuiz.addEventListener("click", goToHighScoresFromQuiz);
+}
+
+function goToHighScoresFromQuiz() {
+    if (viewHighScoresPTag.id === "viewHighScoresFromQuiz") {
+        h2TagInsideContainer.removeChild(h2Tag);
+        h2TagContainer.removeChild(h2TagInsideContainer);
+        document.body.removeChild(h2TagContainer);
+
+        document.body.removeChild(timerPTag);
+        document.body.removeChild(viewHighScoresPTag);
+
+        document.body.appendChild(h1Tag);
+        title.textContent = "High Scores";
+
+        document.body.appendChild(buttonContainer);
+        buttonContainer.appendChild(goBackButton);
+        buttonContainer.appendChild(clearHighScoresButton);
+
+        var clickGoBack = document.querySelector("#goBack");
+        clickGoBack.addEventListener("click", goBackToStart);
+    }
 }
 
 function goBackToStart() {
@@ -129,4 +187,5 @@ function goBackToStart() {
     document.body.appendChild(viewHighScoresPTag);
     document.body.appendChild(timerPTag);
     title.textContent = "Coding Quiz Challenge";
+    viewHighScoresPTag.setAttribute("id", "viewHighScoresFromStart");
 }
