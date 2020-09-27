@@ -14,6 +14,7 @@ h2Tag.setAttribute("id", "titleQuestions");
 // h2 container 
 var h2TagContainer = document.createElement("div");
 h2TagContainer.style.textAlign = "center";
+h2TagContainer.setAttribute("id", "h2TagContainer")
 
 // h2 second container
 var h2TagInsideContainer = document.createElement("div");
@@ -58,8 +59,7 @@ document.body.appendChild(viewHighScoresPTag);
 
 // Timer at top right corner
 var timerPTag = document.createElement("p");
-var countdown = 0;
-timerPTag.textContent = "Time: " + countdown;
+timerPTag.textContent = "Time: " + "0";
 timerPTag.style.position = "fixed";
 timerPTag.style.top = "0";
 timerPTag.style.right = "0";
@@ -67,6 +67,29 @@ timerPTag.style.marginTop = "4px";
 timerPTag.style.marginRight = "4px";
 
 document.body.appendChild(timerPTag);
+
+// ul to hold li answer buttons 
+
+
+// create a div container for the Go Back and Clear High Scores buttons
+var buttonContainer = document.createElement("div");
+buttonContainer.style.textAlign = "center";
+buttonContainer.style.marginLeft = "auto";
+buttonContainer.style.marginRight = "auto";
+buttonContainer.style.display = "block";
+buttonContainer.setAttribute("id", "container")
+
+// Create Go Back button 
+var goBackButton = document.createElement("button");
+goBackButton.textContent = "Go Back";
+goBackButton.style.marginRight = "6px";
+goBackButton.setAttribute("id", "goBack")
+
+// Create Clear High Scores button 
+var clearHighScoresButton = document.createElement("button");
+clearHighScoresButton.textContent = "Clear High Scores";
+clearHighScoresButton.style.marginLeft = "6px";
+clearHighScoresButton.setAttribute("id", "clearHighScores")
 
 // Create a questions and answers array
 var questionsAndAnswers = [{
@@ -91,27 +114,6 @@ var questionsAndAnswers = [{
         d: "4. all of the above"
     },
 ];
-
-
-// create a div container for the Go Back and Clear High Scores buttons
-var buttonContainer = document.createElement("div");
-buttonContainer.style.textAlign = "center";
-buttonContainer.style.marginLeft = "auto";
-buttonContainer.style.marginRight = "auto";
-buttonContainer.style.display = "block";
-buttonContainer.setAttribute("id", "container")
-
-// Create Go Back button 
-var goBackButton = document.createElement("button");
-goBackButton.textContent = "Go Back";
-goBackButton.style.marginRight = "6px";
-goBackButton.setAttribute("id", "goBack")
-
-// Create Clear High Scores button 
-var clearHighScoresButton = document.createElement("button");
-clearHighScoresButton.textContent = "Clear High Scores";
-clearHighScoresButton.style.marginLeft = "6px";
-clearHighScoresButton.setAttribute("id", "clearHighScores")
 
 // when View High Scores is clicked, show different h1 title, show high scores, show an input form for the user to enter a high score, show a Go Back button that'll lead back to the starting page, show a Clear High Scores button that'll clear the high scores list 
 
@@ -149,6 +151,7 @@ function goBackToStart() {
     document.body.appendChild(timerPTag);
     title.textContent = "Coding Quiz Challenge";
     viewHighScoresPTag.setAttribute("id", "viewHighScoresFromStart");
+    timerPTag.textContent = "Time: " + "0";
 }
 
 function goToHighScoresFromQuiz() {
@@ -185,22 +188,56 @@ function userTakesTest() {
     h2TagContainer.appendChild(h2TagInsideContainer);
     h2TagInsideContainer.appendChild(h2Tag);
 
-    viewHighScoresPTag.setAttribute("id", "viewHighScoresFromQuiz");
-    var clickViewHighScoresFromQuiz = document.querySelector("#viewHighScoresFromQuiz");
-    clickViewHighScoresFromQuiz.addEventListener("click", goToHighScoresFromQuiz);
+    // set timer to 50
+    let i = 0;
+    let countdown = 50;
+    console.log(countdown + " first");
 
-    // set timer 
-    countdown = 50;
+    // timerPTag.textContent = "Time: " + countdown;
     var timerInterval = setInterval(function () {
-        countdown--;
         timerPTag.textContent = "Time: " + countdown;
-        if (countdown === 0) {
+        countdown--
+
+        console.log(countdown + " second");
+        // if (answerButtonStatus.id === "answered") {
+        //     createQuestionButtons(i);
+        //     i++;
+        // }
+
+        if (countdown <= 0 || i === questionsAndAnswers.length) {
             clearInterval(timerInterval);
             // put a function here that brings user to All Done page
-            // using the goToHighScoresFromQuiz function as a test for now 
-            goToHighScoresFromQuiz();
+            console.log(i);
         }
 
-    }, 100);
+    }, 1000);
+
+    // clickViewHighScoresFromQuiz
+    viewHighScoresPTag.setAttribute("id", "viewHighScoresFromQuiz");
+
+    var clickViewHighScoresFromQuiz = document.querySelector("#viewHighScoresFromQuiz");
+
+    clickViewHighScoresFromQuiz.addEventListener("click", goToHighScoresFromQuiz);
+
+    clickViewHighScoresFromQuiz.addEventListener("click", function () {
+        console.log("view high scores from quiz button clicked");
+        clearInterval(timerInterval);
+    });
 
 }
+
+// function createQuestionButtons(i) {
+//     // console.log(questionsAndAnswers[i].q);
+//     // console.log(questionsAndAnswers[i].a);
+//     // console.log(questionsAndAnswers[i].b);
+//     // console.log(questionsAndAnswers[i].c);
+//     // console.log(questionsAndAnswers[i].d);
+
+
+// }
+
+// function buttonStatus() {
+//     // answerButtonStatus
+
+//     // viewHighScoresPTag.setAttribute("id", "viewHighScoresFromStart");
+// }
