@@ -98,57 +98,76 @@ clearHighScoresButton.setAttribute("id", "clearHighScores")
 // Create a questions and answers array
 var questionsAndAnswers = [{
         q: "Commonly used data types DO NOT include:",
-        a: "1. strings",
-        b: "2. booleans",
-        c: "3. alerts",
-        d: "4. numbers"
+        0: "1. strings",
+        1: "2. booleans",
+        2: "3. alerts",
+        3: "4. numbers",
+        answer: "3. alerts"
     },
     {
         q: "The condition in an if / else statement is enclosed within ____.",
-        a: "1. quotes",
-        b: "2. curly brackets",
-        c: "3. parenthesis",
-        d: "4. square brackets"
+        0: "1. quotes",
+        1: "2. curly brackets",
+        2: "3. parenthesis",
+        3: "4. square brackets",
+        answer: "3. parenthesis"
     },
     {
         q: "Arrays in JavaScript can be used to store ____.",
-        a: "1. numbers and strings",
-        b: "2. other arrays",
-        c: "3. booleans",
-        d: "4. all of the above"
+        0: "1. numbers and strings",
+        1: "2. other arrays",
+        2: "3. booleans",
+        3: "4. all of the above",
+        answer: "4. all of the above"
+    },
+    {
+        q: "Math.random() returns what? ",
+        0: "1. numbers and strings",
+        1: "2. a random number between 0 (exclusive), and 1 (inclusive)",
+        2: "3. booleans",
+        3: "4. a random number between 0 (inclusive), and 1 (exclusive)",
+        answer: "4. a random number between 0 (inclusive), and 1 (exclusive)"
+    },
+    {
+        q: "What keyword displays a box requesting user input?",
+        0: "1. console.log",
+        1: "2. prompt",
+        2: "3. confirm",
+        3: "4. alert",
+        answer: "2. prompt"
+    },
+    {
+        q: "What does DOM stand for?",
+        0: "1. Document Observed Module",
+        1: "2. Document Object Module",
+        2: "3. Document Object Model",
+        3: "4. Doughnuts Oreos Milk",
+        answer: "3. Document Object Model"
+    },
+    {
+        q: "Which of the following programming language is used for styling?",
+        0: "1. JavaScript",
+        1: "2. HTML",
+        2: "3. CSS",
+        3: "4. jQuery",
+        answer: "3. Document Object Model"
     },
 ];
 
 // li answer buttons 
 function createQuestionButtons(i) {
-    var buttonA = document.createElement("button");
-    var buttonB = document.createElement("button");
-    var buttonC = document.createElement("button");
-    var buttonD = document.createElement("button");
-
-    var liA = document.createElement("li");
-    var liB = document.createElement("li");
-    var liC = document.createElement("li");
-    var liD = document.createElement("li");
-
-    buttonA.textContent = questionsAndAnswers[i].a;
-    buttonB.textContent = questionsAndAnswers[i].b;
-    buttonC.textContent = questionsAndAnswers[i].c;
-    buttonD.textContent = questionsAndAnswers[i].d;
-
     while (answerUlTag.hasChildNodes()) {
         answerUlTag.removeChild(answerUlTag.childNodes[0]);
     }
 
     document.body.appendChild(answerUlTag);
-    answerUlTag.appendChild(liA);
-    answerUlTag.appendChild(liB);
-    answerUlTag.appendChild(liC);
-    answerUlTag.appendChild(liD);
-    liA.appendChild(buttonA);
-    liB.appendChild(buttonB);
-    liC.appendChild(buttonC);
-    liD.appendChild(buttonD);
+    for (j = 0; j < 4; j++) {
+        var buttonX = document.createElement("button");
+        var liX = document.createElement("li");
+        buttonX.textContent = questionsAndAnswers[i][j];
+        answerUlTag.appendChild(liX);
+        liX.appendChild(buttonX);
+    }
 
     document.body.appendChild(h2TagContainer);
     h2TagContainer.appendChild(h2TagInsideContainer);
@@ -230,19 +249,23 @@ function userTakesTest() {
     let i = 0;
     // set timer to 50
     let countdown = 50;
+    timerPTag.textContent = "Time: " + countdown--;
+    createQuestionButtons(i);
+    i++;
     var timerInterval = setInterval(function () {
         timerPTag.textContent = "Time: " + countdown;
         countdown--;
 
         // if (answerButtonStatus.id === "answered") {
-        //     createQuestionButtons(i);
         //     i++;
+        // createQuestionButtons(i);
+        //     
         // }
         if (i < questionsAndAnswers.length) {
             createQuestionButtons(i);
             i++;
         }
-
+        console.log(i);
         if (countdown === -1 || i === questionsAndAnswers.length) {
             clearInterval(timerInterval);
             // put a function here that brings user to All Done page
