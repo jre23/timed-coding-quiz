@@ -1,5 +1,3 @@
-// title page
-
 // h1 title tag
 var h1Tag = document.createElement("h1");
 h1Tag.textContent = "Coding Quiz Challenge";
@@ -135,25 +133,22 @@ function goToHighScoresFromStart() {
 
         var clickGoBack = document.querySelector("#goBack");
         clickGoBack.addEventListener("click", goBackToStart);
+
+        // have to add clear high scores functionality here later 
     }
 }
 
-var clickStartQuiz = document.querySelector("#startQuiz");
-clickStartQuiz.addEventListener("click", userTakesTest);
+function goBackToStart() {
+    buttonContainer.removeChild(clearHighScoresButton);
+    buttonContainer.removeChild(goBackButton);
+    document.body.removeChild(buttonContainer);
 
-function userTakesTest() {
-    document.body.removeChild(startQuizButton);
-    document.body.removeChild(p1Tag);
-    document.body.removeChild(h1Tag);
-    h2Tag.textContent = questionsAndAnswers[0].q;
-
-    document.body.appendChild(h2TagContainer);
-    h2TagContainer.appendChild(h2TagInsideContainer);
-    h2TagInsideContainer.appendChild(h2Tag);
-
-    viewHighScoresPTag.setAttribute("id", "viewHighScoresFromQuiz");
-    var clickViewHighScoresFromQuiz = document.querySelector("#viewHighScoresFromQuiz");
-    clickViewHighScoresFromQuiz.addEventListener("click", goToHighScoresFromQuiz);
+    document.body.appendChild(p1Tag);
+    document.body.appendChild(startQuizButton);
+    document.body.appendChild(viewHighScoresPTag);
+    document.body.appendChild(timerPTag);
+    title.textContent = "Coding Quiz Challenge";
+    viewHighScoresPTag.setAttribute("id", "viewHighScoresFromStart");
 }
 
 function goToHighScoresFromQuiz() {
@@ -177,15 +172,35 @@ function goToHighScoresFromQuiz() {
     }
 }
 
-function goBackToStart() {
-    buttonContainer.removeChild(clearHighScoresButton);
-    buttonContainer.removeChild(goBackButton);
-    document.body.removeChild(buttonContainer);
+var clickStartQuiz = document.querySelector("#startQuiz");
+clickStartQuiz.addEventListener("click", userTakesTest);
 
-    document.body.appendChild(p1Tag);
-    document.body.appendChild(startQuizButton);
-    document.body.appendChild(viewHighScoresPTag);
-    document.body.appendChild(timerPTag);
-    title.textContent = "Coding Quiz Challenge";
-    viewHighScoresPTag.setAttribute("id", "viewHighScoresFromStart");
+function userTakesTest() {
+    document.body.removeChild(startQuizButton);
+    document.body.removeChild(p1Tag);
+    document.body.removeChild(h1Tag);
+    h2Tag.textContent = questionsAndAnswers[0].q;
+
+    document.body.appendChild(h2TagContainer);
+    h2TagContainer.appendChild(h2TagInsideContainer);
+    h2TagInsideContainer.appendChild(h2Tag);
+
+    viewHighScoresPTag.setAttribute("id", "viewHighScoresFromQuiz");
+    var clickViewHighScoresFromQuiz = document.querySelector("#viewHighScoresFromQuiz");
+    clickViewHighScoresFromQuiz.addEventListener("click", goToHighScoresFromQuiz);
+
+    // set timer 
+    countdown = 50;
+    var timerInterval = setInterval(function () {
+        countdown--;
+        timerPTag.textContent = "Time: " + countdown;
+        if (countdown === 0) {
+            clearInterval(timerInterval);
+            // put a function here that brings user to All Done page
+            // using the goToHighScoresFromQuiz function as a test for now 
+            goToHighScoresFromQuiz();
+        }
+
+    }, 100);
+
 }
