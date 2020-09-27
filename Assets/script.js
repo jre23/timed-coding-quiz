@@ -69,7 +69,11 @@ timerPTag.style.marginRight = "4px";
 document.body.appendChild(timerPTag);
 
 // ul to hold li answer buttons 
-
+var answerUlTag = document.createElement("ul");
+answerUlTag.textContent = "";
+answerUlTag.style.textAlign = "left";
+answerUlTag.style.listStyleType = "none";
+answerUlTag.setAttribute("id", "answerUlTag")
 
 // create a div container for the Go Back and Clear High Scores buttons
 var buttonContainer = document.createElement("div");
@@ -115,6 +119,45 @@ var questionsAndAnswers = [{
     },
 ];
 
+// li answer buttons 
+function createQuestionButtons(i) {
+    var buttonA = document.createElement("button");
+    var buttonB = document.createElement("button");
+    var buttonC = document.createElement("button");
+    var buttonD = document.createElement("button");
+
+    var liA = document.createElement("li");
+    var liB = document.createElement("li");
+    var liC = document.createElement("li");
+    var liD = document.createElement("li");
+
+    buttonA.textContent = questionsAndAnswers[i].a;
+    buttonB.textContent = questionsAndAnswers[i].b;
+    buttonC.textContent = questionsAndAnswers[i].c;
+    buttonD.textContent = questionsAndAnswers[i].d;
+
+    while (answerUlTag.hasChildNodes()) {
+        answerUlTag.removeChild(answerUlTag.childNodes[0]);
+    }
+
+    document.body.appendChild(answerUlTag);
+    answerUlTag.appendChild(liA);
+    answerUlTag.appendChild(liB);
+    answerUlTag.appendChild(liC);
+    answerUlTag.appendChild(liD);
+    liA.appendChild(buttonA);
+    liB.appendChild(buttonB);
+    liC.appendChild(buttonC);
+    liD.appendChild(buttonD);
+
+    document.body.appendChild(h2TagContainer);
+    h2TagContainer.appendChild(h2TagInsideContainer);
+    h2TagInsideContainer.appendChild(h2Tag);
+    h2Tag.textContent = questionsAndAnswers[i].q;
+
+    h2TagContainer.appendChild(answerUlTag);
+}
+
 // when View High Scores is clicked, show different h1 title, show high scores, show an input form for the user to enter a high score, show a Go Back button that'll lead back to the starting page, show a Clear High Scores button that'll clear the high scores list 
 
 var clickViewHighScoresFromStart = document.querySelector("#viewHighScoresFromStart");
@@ -157,6 +200,7 @@ function goBackToStart() {
 function goToHighScoresFromQuiz() {
     if (viewHighScoresPTag.id === "viewHighScoresFromQuiz") {
         h2TagInsideContainer.removeChild(h2Tag);
+
         h2TagContainer.removeChild(h2TagInsideContainer);
         document.body.removeChild(h2TagContainer);
 
@@ -182,32 +226,27 @@ function userTakesTest() {
     document.body.removeChild(startQuizButton);
     document.body.removeChild(p1Tag);
     document.body.removeChild(h1Tag);
-    h2Tag.textContent = questionsAndAnswers[0].q;
 
-    document.body.appendChild(h2TagContainer);
-    h2TagContainer.appendChild(h2TagInsideContainer);
-    h2TagInsideContainer.appendChild(h2Tag);
-
-    // set timer to 50
     let i = 0;
+    // set timer to 50
     let countdown = 50;
-    console.log(countdown + " first");
-
-    // timerPTag.textContent = "Time: " + countdown;
     var timerInterval = setInterval(function () {
         timerPTag.textContent = "Time: " + countdown;
-        countdown--
+        countdown--;
 
-        console.log(countdown + " second");
         // if (answerButtonStatus.id === "answered") {
         //     createQuestionButtons(i);
         //     i++;
         // }
+        if (i < questionsAndAnswers.length) {
+            createQuestionButtons(i);
+            i++;
+        }
 
-        if (countdown <= 0 || i === questionsAndAnswers.length) {
+        if (countdown === -1 || i === questionsAndAnswers.length) {
             clearInterval(timerInterval);
             // put a function here that brings user to All Done page
-            console.log(i);
+            console.log("test clearInterval");
         }
 
     }, 1000);
@@ -225,13 +264,6 @@ function userTakesTest() {
     });
 
 }
-
-// function createQuestionButtons(i) {
-//     // console.log(questionsAndAnswers[i].q);
-//     // console.log(questionsAndAnswers[i].a);
-//     // console.log(questionsAndAnswers[i].b);
-//     // console.log(questionsAndAnswers[i].c);
-//     // console.log(questionsAndAnswers[i].d);
 
 
 // }
