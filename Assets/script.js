@@ -75,7 +75,16 @@ answerUlTag.style.textAlign = "left";
 answerUlTag.style.listStyleType = "none";
 answerUlTag.setAttribute("id", "answerUlTag")
 
-// create a div container for the Go Back and Clear High Scores buttons
+// correct or wrong text pop up if answered correctly
+var correctOrWrongPTag = document.createElement("p");
+correctOrWrongPTag.textContent = "";
+correctOrWrongPTag.style.borderTop = "solid";
+correctOrWrongPTag.style.color = "gray";
+correctOrWrongPTag.setAttribute("id", "correctOrWrongPTag");
+// correctOrWrongPTag.style.fontFamily = "";
+
+
+// div container for the Go Back and Clear High Scores buttons
 var buttonContainer = document.createElement("div");
 buttonContainer.style.textAlign = "center";
 buttonContainer.style.marginLeft = "auto";
@@ -83,19 +92,19 @@ buttonContainer.style.marginRight = "auto";
 buttonContainer.style.display = "block";
 buttonContainer.setAttribute("id", "container")
 
-// Create Go Back button 
+// Go Back button 
 var goBackButton = document.createElement("button");
 goBackButton.textContent = "Go Back";
 goBackButton.style.marginRight = "6px";
 goBackButton.setAttribute("id", "goBack")
 
-// Create Clear High Scores button 
+// Clear High Scores button 
 var clearHighScoresButton = document.createElement("button");
 clearHighScoresButton.textContent = "Clear High Scores";
 clearHighScoresButton.style.marginLeft = "6px";
 clearHighScoresButton.setAttribute("id", "clearHighScores")
 
-// Create a questions and answers array
+// questions and answers array
 var questionsAndAnswers = [{
         q: "Commonly used data types DO NOT include:",
         0: "1. strings",
@@ -150,7 +159,7 @@ var questionsAndAnswers = [{
         1: "2. HTML",
         2: "3. CSS",
         3: "4. jQuery",
-        answer: "3. Document Object Model"
+        answer: "3. CSS"
     },
 ];
 
@@ -158,6 +167,9 @@ var questionsAndAnswers = [{
 function createQuestionButtons(i) {
     while (answerUlTag.hasChildNodes()) {
         answerUlTag.removeChild(answerUlTag.childNodes[0]);
+    }
+    if (document.querySelector("#correctOrWrongPTag")) {
+        document.body.removeChild(correctOrWrongPTag);
     }
 
     for (j = 0; j < 4; j++) {
@@ -258,36 +270,22 @@ function userTakesTest() {
     createQuestionButtons(i);
     i++;
     var timerInterval = setInterval(function () {
-        timerPTag.textContent = "Time: " + countdown;
-        countdown--;
+            timerPTag.textContent = "Time: " + countdown;
+            countdown--;
 
-        // if (answerButtonStatus.id === "answered") {
-        //     i++;
-        // createQuestionButtons(i);
-        //     
-        // }
-        if (status) {
-            createQuestionButtons(i);
-            status = false;
-            i++;
-        }
+            if (status) {
+                createQuestionButtons(i);
+                status = false;
+                i++;
+            }
 
-        console.log(i);
-
-        if (countdown === -1) {
-            clearInterval(timerInterval);
-            // put a function here that brings user to All Done page
-            console.log("test clearInterval");
-        }
-    }, 1000);
-
-    // clickViewHighScoresFromQuiz
-    viewHighScoresPTag.setAttribute("id", "viewHighScoresFromQuiz");
-    var clickViewHighScoresFromQuiz = document.querySelector("#viewHighScoresFromQuiz");
-    clickViewHighScoresFromQuiz.addEventListener("click", goToHighScoresFromQuiz);
-    clickViewHighScoresFromQuiz.addEventListener("click", function () {
-        clearInterval(timerInterval);
-    });
+            if (countdown <= 0) {
+                clearInterval(timerInterval);
+                // put a function here that brings user to All Done page
+                console.log("test clearInterval for countdown");
+            }
+        },
+        1000);
 
     var uLAnswerList = document.querySelector("#answerUlTag");
     uLAnswerList.addEventListener("click", function (event) {
@@ -299,23 +297,29 @@ function userTakesTest() {
             var index = element.parentElement.getAttribute("data-index");
             if (element.textContent === questionsAndAnswers[index].answer) {
                 console.log("correct!");
+                correctOrWrongPTag.textContent = "Correct!";
+                document.body.appendChild(correctOrWrongPTag);
                 status = true;
+                if (i === questionsAndAnswers.length) {
+                    clearInterval(timerInterval);
+                    console.log("test clearInterval for end of questions");
+                    // call all done function here 
+                }
             } else {
                 console.log("wrong");
+                countdown -= 5;
+                correctOrWrongPTag.textContent = "Wrong!";
+                document.body.appendChild(correctOrWrongPTag);
                 status = false;
             }
         }
     });
+
+    // clickViewHighScoresFromQuiz
+    viewHighScoresPTag.setAttribute("id", "viewHighScoresFromQuiz");
+    var clickViewHighScoresFromQuiz = document.querySelector("#viewHighScoresFromQuiz");
+    clickViewHighScoresFromQuiz.addEventListener("click", goToHighScoresFromQuiz);
+    clickViewHighScoresFromQuiz.addEventListener("click", function () {
+        clearInterval(timerInterval);
+    });
 }
-
-
-
-
-
-// }
-
-// function buttonStatus() {
-//     // answerButtonStatus
-
-//     // viewHighScoresPTag.setAttribute("id", "viewHighScoresFromStart");
-// }
