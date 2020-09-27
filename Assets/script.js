@@ -160,10 +160,10 @@ function createQuestionButtons(i) {
         answerUlTag.removeChild(answerUlTag.childNodes[0]);
     }
 
-    document.body.appendChild(answerUlTag);
     for (j = 0; j < 4; j++) {
         var buttonX = document.createElement("button");
         var liX = document.createElement("li");
+        liX.setAttribute("data-index", i);
         buttonX.textContent = questionsAndAnswers[i][j];
         answerUlTag.appendChild(liX);
         liX.appendChild(buttonX);
@@ -173,8 +173,8 @@ function createQuestionButtons(i) {
     h2TagContainer.appendChild(h2TagInsideContainer);
     h2TagInsideContainer.appendChild(h2Tag);
     h2Tag.textContent = questionsAndAnswers[i].q;
-
     h2TagContainer.appendChild(answerUlTag);
+    document.body.appendChild(answerUlTag);
 }
 
 // when View High Scores is clicked, show different h1 title, show high scores, show an input form for the user to enter a high score, show a Go Back button that'll lead back to the starting page, show a Clear High Scores button that'll clear the high scores list 
@@ -218,15 +218,19 @@ function goBackToStart() {
 
 function goToHighScoresFromQuiz() {
     if (viewHighScoresPTag.id === "viewHighScoresFromQuiz") {
-        h2TagInsideContainer.removeChild(h2Tag);
 
+        while (answerUlTag.hasChildNodes()) {
+            answerUlTag.removeChild(answerUlTag.childNodes[0]);
+        }
+
+        h2TagInsideContainer.removeChild(h2Tag);
         h2TagContainer.removeChild(h2TagInsideContainer);
         document.body.removeChild(h2TagContainer);
-
         document.body.removeChild(timerPTag);
         document.body.removeChild(viewHighScoresPTag);
 
         document.body.appendChild(h1Tag);
+
         title.textContent = "High Scores";
 
         document.body.appendChild(buttonContainer);
@@ -249,6 +253,7 @@ function userTakesTest() {
     let i = 0;
     // set timer to 50
     let countdown = 50;
+    let status = false;
     timerPTag.textContent = "Time: " + countdown--;
     createQuestionButtons(i);
     i++;
@@ -261,32 +266,50 @@ function userTakesTest() {
         // createQuestionButtons(i);
         //     
         // }
-        if (i < questionsAndAnswers.length) {
+        if (status) {
             createQuestionButtons(i);
+            status = false;
             i++;
         }
+
         console.log(i);
-        if (countdown === -1 || i === questionsAndAnswers.length) {
+
+        if (countdown === -1) {
             clearInterval(timerInterval);
             // put a function here that brings user to All Done page
             console.log("test clearInterval");
         }
-
     }, 1000);
 
     // clickViewHighScoresFromQuiz
     viewHighScoresPTag.setAttribute("id", "viewHighScoresFromQuiz");
-
     var clickViewHighScoresFromQuiz = document.querySelector("#viewHighScoresFromQuiz");
-
     clickViewHighScoresFromQuiz.addEventListener("click", goToHighScoresFromQuiz);
-
     clickViewHighScoresFromQuiz.addEventListener("click", function () {
-        console.log("view high scores from quiz button clicked");
         clearInterval(timerInterval);
     });
 
+    var uLAnswerList = document.querySelector("#answerUlTag");
+    uLAnswerList.addEventListener("click", function (event) {
+
+        console.log("answer button pushed");
+
+        var element = event.target;
+        if (element.matches("button")) {
+            var index = element.parentElement.getAttribute("data-index");
+            if (element.textContent === questionsAndAnswers[index].answer) {
+                console.log("correct!");
+                status = true;
+            } else {
+                console.log("wrong");
+                status = false;
+            }
+        }
+    });
 }
+
+
+
 
 
 // }
