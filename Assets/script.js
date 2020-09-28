@@ -19,8 +19,9 @@ h2TagContainer.setAttribute("id", "h2TagContainer")
 // h2 second container
 var h2TagInsideContainer = document.createElement("div");
 h2TagInsideContainer.style.textAlign = "left";
-h2TagInsideContainer.style.marginLeft = "auto";
-h2TagInsideContainer.style.marginRight = "auto";
+h2TagInsideContainer.style.width = "50%";
+// h2TagInsideContainer.style.marginLeft = "auto";
+// h2TagInsideContainer.style.marginRight = "auto";
 h2TagInsideContainer.style.display = "inline-block";
 
 // p tag with code quiz instructions
@@ -33,6 +34,12 @@ p1Tag.style.width = "50%";
 p1Tag.style.display = "block";
 
 document.body.appendChild(p1Tag);
+
+// p tag for all done page
+var p2Tag = document.createElement("p");
+p2Tag.textContent = "";
+p2Tag.style.textAlign = "left";
+p2Tag.setAttribute("id", "p2Tag")
 
 // Start Quiz button
 var startQuizButton = document.createElement("button");
@@ -81,8 +88,6 @@ correctOrWrongPTag.textContent = "";
 correctOrWrongPTag.style.borderTop = "solid";
 correctOrWrongPTag.style.color = "gray";
 correctOrWrongPTag.setAttribute("id", "correctOrWrongPTag");
-// correctOrWrongPTag.style.fontFamily = "";
-
 
 // div container for the Go Back and Clear High Scores buttons
 var buttonContainer = document.createElement("div");
@@ -169,7 +174,11 @@ function createQuestionButtons(i) {
         answerUlTag.removeChild(answerUlTag.childNodes[0]);
     }
     if (document.querySelector("#correctOrWrongPTag")) {
-        document.body.removeChild(correctOrWrongPTag);
+        h2TagInsideContainer.removeChild(correctOrWrongPTag);
+    }
+    if (document.querySelector("#p2Tag")) {
+        console.log("p2tag test to remove in create questions buttons function");
+        h2TagInsideContainer.removeChild(p2Tag);
     }
 
     for (j = 0; j < 4; j++) {
@@ -185,8 +194,8 @@ function createQuestionButtons(i) {
     h2TagContainer.appendChild(h2TagInsideContainer);
     h2TagInsideContainer.appendChild(h2Tag);
     h2Tag.textContent = questionsAndAnswers[i].q;
-    h2TagContainer.appendChild(answerUlTag);
-    document.body.appendChild(answerUlTag);
+    h2TagInsideContainer.appendChild(answerUlTag);
+    // document.body.appendChild(answerUlTag);
 }
 
 // when View High Scores is clicked, show different h1 title, show high scores, show an input form for the user to enter a high score, show a Go Back button that'll lead back to the starting page, show a Clear High Scores button that'll clear the high scores list 
@@ -262,6 +271,8 @@ function userTakesTest() {
     document.body.removeChild(p1Tag);
     document.body.removeChild(h1Tag);
 
+    var score = 0;
+
     let i = 0;
     // set timer to 50
     let countdown = 50;
@@ -269,6 +280,10 @@ function userTakesTest() {
     timerPTag.textContent = "Time: " + countdown--;
     createQuestionButtons(i);
     i++;
+    if (document.querySelector("#p2Tag")) {
+        console.log("p2tag test to remove in user takes test function");
+        h2TagInsideContainer.removeChild(p2Tag);
+    }
     var timerInterval = setInterval(function () {
             timerPTag.textContent = "Time: " + countdown;
             countdown--;
@@ -281,39 +296,55 @@ function userTakesTest() {
 
             if (countdown <= 0) {
                 clearInterval(timerInterval);
-                // put a function here that brings user to All Done page
+                console.log(score + " time interval");
+                allDonePage(score);
                 console.log("test clearInterval for countdown");
+                i = 0;
+
+                return;
             }
+
         },
         1000);
 
     var uLAnswerList = document.querySelector("#answerUlTag");
     uLAnswerList.addEventListener("click", function (event) {
 
-        console.log("answer button pushed");
-
         var element = event.target;
         if (element.matches("button")) {
             var index = element.parentElement.getAttribute("data-index");
+
             if (element.textContent === questionsAndAnswers[index].answer) {
                 console.log("correct!");
                 correctOrWrongPTag.textContent = "Correct!";
-                document.body.appendChild(correctOrWrongPTag);
+                h2TagInsideContainer.appendChild(correctOrWrongPTag);
+                score += 5;
                 status = true;
                 if (i === questionsAndAnswers.length) {
+                    console.log(i + " test");
                     clearInterval(timerInterval);
+                    console.log(score + " questions length");
+                    allDonePage(score);
                     console.log("test clearInterval for end of questions");
-                    // call all done function here 
+                    i = 0;
+                    return;
                 }
             } else {
                 console.log("wrong");
                 countdown -= 5;
                 correctOrWrongPTag.textContent = "Wrong!";
-                document.body.appendChild(correctOrWrongPTag);
+                h2TagInsideContainer.appendChild(correctOrWrongPTag);
+                if (score <= 0) {
+                    score = 0;
+                } else {
+                    score -= 2;
+                }
                 status = false;
             }
         }
+        // console.log("Your score is " + score + ".");
     });
+
 
     // clickViewHighScoresFromQuiz
     viewHighScoresPTag.setAttribute("id", "viewHighScoresFromQuiz");
@@ -322,4 +353,33 @@ function userTakesTest() {
     clickViewHighScoresFromQuiz.addEventListener("click", function () {
         clearInterval(timerInterval);
     });
+    console.log(score + " end of quiz function");
+}
+
+function allDonePage(x) {
+    console.log("test all done page function call");
+    while (answerUlTag.hasChildNodes()) {
+        answerUlTag.removeChild(answerUlTag.childNodes[0]);
+    }
+
+    if (document.querySelector("#correctOrWrongPTag")) {
+        h2TagInsideContainer.removeChild(correctOrWrongPTag);
+    }
+    if (document.querySelector("#p2Tag")) {
+        console.log("p2tag test to remove in all done page");
+        h2TagInsideContainer.removeChild(p2Tag);
+    }
+
+    h2Tag.textContent = "All done!";
+
+    console.log(x + " all done before");
+
+    p2Tag.textContent = "Your final score is " + x;
+    // reset x
+    x = 0;
+    console.log(x + " all done after");
+
+    h2TagInsideContainer.appendChild(h2Tag);
+    h2TagInsideContainer.appendChild(p2Tag);
+
 }
