@@ -24,7 +24,7 @@ h2TagInsideContainer.style.display = "inline-block";
 
 // p tag with code quiz instructions
 var p1Tag = document.createElement("p");
-p1Tag.textContent = "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your quiz time by ten seconds!";
+p1Tag.textContent = "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your quiz time by 5 seconds!";
 p1Tag.style.textAlign = "center";
 p1Tag.style.marginLeft = "auto";
 p1Tag.style.marginRight = "auto";
@@ -291,8 +291,6 @@ function allDonePage(x) {
             return;
         }
         highScoresNames.push(allDoneInput.value.trim());
-
-        console.log("test allDonePage function call right before goToHigh " + x);
         goToHighScoresFromQuiz();
         allDoneInput.value = "";
     });
@@ -323,6 +321,9 @@ function goToHighScoresFromQuiz() {
 
         var clickGoBack = document.querySelector("#goBack");
         clickGoBack.addEventListener("click", goBackToStart);
+
+        var clickClearHighScores = document.querySelector("#clearHighScores");
+        clickClearHighScores.addEventListener("click", clearHighScores);
     }
 }
 
@@ -340,6 +341,13 @@ function renderHighScoresList() {
         liTag.appendChild(textNode);
         j++;
     }
+}
+
+function clearHighScores() {
+    console.log("test clearHighScores function call");
+    highScoresNames = [];
+    highScores = [];
+    renderHighScoresList();
 }
 
 var clickStartQuiz = document.querySelector("#startQuiz");
