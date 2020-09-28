@@ -20,8 +20,6 @@ h2TagContainer.setAttribute("id", "h2TagContainer")
 var h2TagInsideContainer = document.createElement("div");
 h2TagInsideContainer.style.textAlign = "left";
 h2TagInsideContainer.style.width = "50%";
-// h2TagInsideContainer.style.marginLeft = "auto";
-// h2TagInsideContainer.style.marginRight = "auto";
 h2TagInsideContainer.style.display = "inline-block";
 
 // p tag with code quiz instructions
@@ -45,7 +43,7 @@ p2Tag.setAttribute("id", "p2Tag")
 var allDoneForm = document.createElement("form");
 allDoneForm.setAttribute("method", "post");
 allDoneForm.setAttribute("id", "allDoneForm")
-allDoneForm.textContent = "Enter initials:"
+allDoneForm.textContent = "Enter initials: "
 
 var allDoneInput = document.createElement("input");
 allDoneInput.setAttribute("id", "allDoneInput")
@@ -94,6 +92,13 @@ answerUlTag.textContent = "";
 answerUlTag.style.textAlign = "left";
 answerUlTag.style.listStyleType = "none";
 answerUlTag.setAttribute("id", "answerUlTag")
+
+// ul to hold high scores list
+var highScoresUlTag = document.createElement("ul");
+highScoresUlTag.textContent = "";
+highScoresUlTag.style.textAlign = "left";
+highScoresUlTag.style.listStyleType = "none";
+highScoresUlTag.setAttribute("id", "highScoresUlTag")
 
 // correct or wrong text pop up if answered correctly
 var correctOrWrongPTag = document.createElement("p");
@@ -225,6 +230,8 @@ function goToHighScoresFromStart() {
         document.body.removeChild(p1Tag);
         title.textContent = "High Scores";
 
+        renderHighScoresList();
+
         document.body.appendChild(buttonContainer);
         buttonContainer.appendChild(goBackButton);
         buttonContainer.appendChild(clearHighScoresButton);
@@ -237,6 +244,10 @@ function goToHighScoresFromStart() {
 }
 
 function goBackToStart() {
+    if (document.querySelector("#highScoresUlTag")) {
+        document.body.removeChild(highScoresUlTag);
+        console.log("test to remove high scores list when go back button pressed")
+    }
     buttonContainer.removeChild(clearHighScoresButton);
     buttonContainer.removeChild(goBackButton);
     document.body.removeChild(buttonContainer);
@@ -248,6 +259,43 @@ function goBackToStart() {
     title.textContent = "Coding Quiz Challenge";
     viewHighScoresPTag.setAttribute("id", "viewHighScoresFromStart");
     timerPTag.textContent = "Time: " + "0";
+}
+
+var highScoresNames = [];
+var highScores = [];
+
+function allDonePage(x) {
+    console.log("test allDonePage function call " + x);
+    while (answerUlTag.hasChildNodes()) {
+        answerUlTag.removeChild(answerUlTag.childNodes[0]);
+    }
+    if (document.querySelector("#correctOrWrongPTag")) {
+        h2TagInsideContainer.removeChild(correctOrWrongPTag);
+    }
+
+    h2Tag.textContent = "All done!";
+    p2Tag.textContent = "Your final score is " + x;
+
+    h2TagInsideContainer.appendChild(h2Tag);
+    h2TagInsideContainer.appendChild(p2Tag);
+    h2TagInsideContainer.appendChild(allDoneForm);
+    allDoneForm.appendChild(allDoneInput);
+    allDoneForm.appendChild(allDoneButton);
+
+    highScores.push(x);
+
+    var submitEl = document.querySelector("#submit");
+    submitEl.addEventListener("click", function (event) {
+        event.preventDefault();
+        if (allDoneInput.value.trim() === "") {
+            return;
+        }
+        highScoresNames.push(allDoneInput.value.trim());
+
+        console.log("test allDonePage function call right before goToHigh " + x);
+        goToHighScoresFromQuiz();
+        allDoneInput.value = "";
+    });
 }
 
 function goToHighScoresFromQuiz() {
@@ -267,12 +315,30 @@ function goToHighScoresFromQuiz() {
 
         title.textContent = "High Scores";
 
+        renderHighScoresList();
+
         document.body.appendChild(buttonContainer);
         buttonContainer.appendChild(goBackButton);
         buttonContainer.appendChild(clearHighScoresButton);
 
         var clickGoBack = document.querySelector("#goBack");
         clickGoBack.addEventListener("click", goBackToStart);
+    }
+}
+
+function renderHighScoresList() {
+    console.log("test for renderHighScoresList function call");
+    highScoresUlTag.innerHTML = "";
+    let j = 1;
+    for (let i = 0; i < highScoresNames.length; i++) {
+        var liTag = document.createElement("li");
+        var textNode = document.createTextNode(j + ". " + highScoresNames[i] + " - " + highScores[i]);
+        liTag.setAttribute("data-index-scores", i);
+
+        document.body.appendChild(highScoresUlTag);
+        highScoresUlTag.appendChild(liTag);
+        liTag.appendChild(textNode);
+        j++;
     }
 }
 
@@ -296,9 +362,20 @@ function userTakesTest() {
     i++;
 
     if (document.querySelector("#p2Tag")) {
-        console.log("p2tag test to remove in user takes test function");
+        console.log("test to remove psTag when quiz start");
         h2TagInsideContainer.removeChild(p2Tag);
     }
+
+    if (document.querySelector("#allDoneForm")) {
+        h2TagInsideContainer.removeChild(allDoneForm);
+        console.log("test to remove form when quiz start")
+    }
+
+    if (document.querySelector("#highScoresUlTag")) {
+        document.body.removeChild(highScoresUlTag);
+        console.log("test to high scores list when quiz start")
+    }
+
     var timerInterval = setInterval(function () {
             timerPTag.textContent = "Time: " + countdown;
             countdown--;
@@ -366,23 +443,4 @@ function userTakesTest() {
         clearInterval(timerInterval);
     });
     console.log(score + " is the score at end of quiz function");
-}
-
-function allDonePage(x) {
-    console.log("test all done page function call");
-    while (answerUlTag.hasChildNodes()) {
-        answerUlTag.removeChild(answerUlTag.childNodes[0]);
-    }
-    if (document.querySelector("#correctOrWrongPTag")) {
-        h2TagInsideContainer.removeChild(correctOrWrongPTag);
-    }
-
-    h2Tag.textContent = "All done!";
-    p2Tag.textContent = "Your final score is " + x;
-
-    h2TagInsideContainer.appendChild(h2Tag);
-    h2TagInsideContainer.appendChild(p2Tag);
-    h2TagInsideContainer.appendChild(allDoneForm);
-    allDoneForm.appendChild(allDoneInput);
-    allDoneForm.appendChild(allDoneButton);
 }
