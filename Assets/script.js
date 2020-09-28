@@ -19,8 +19,8 @@ h2TagContainer.setAttribute("id", "h2TagContainer")
 // h2 second container
 var h2TagInsideContainer = document.createElement("div");
 h2TagInsideContainer.style.textAlign = "left";
-h2TagInsideContainer.style.width = "50%";
-h2TagInsideContainer.style.display = "inline-block";
+h2TagInsideContainer.style.width = "auto";
+// h2TagInsideContainer.style.display = "inline-block";
 
 // p tag with code quiz instructions
 var p1Tag = document.createElement("p");
@@ -28,7 +28,7 @@ p1Tag.textContent = "Try to answer the following code-related questions within t
 p1Tag.style.textAlign = "center";
 p1Tag.style.marginLeft = "auto";
 p1Tag.style.marginRight = "auto";
-p1Tag.style.width = "50%";
+p1Tag.style.width = "auto";
 p1Tag.style.display = "block";
 
 document.body.appendChild(p1Tag);
@@ -96,6 +96,7 @@ answerUlTag.setAttribute("id", "answerUlTag")
 // ul to hold high scores list
 var highScoresUlTag = document.createElement("ul");
 highScoresUlTag.textContent = "";
+highScoresUlTag.style.paddingLeft = "0px";
 highScoresUlTag.style.textAlign = "left";
 highScoresUlTag.style.listStyleType = "none";
 highScoresUlTag.setAttribute("id", "highScoresUlTag")
@@ -109,7 +110,7 @@ correctOrWrongPTag.setAttribute("id", "correctOrWrongPTag");
 
 // div container for the Go Back and Clear High Scores buttons
 var buttonContainer = document.createElement("div");
-buttonContainer.style.textAlign = "center";
+buttonContainer.style.textAlign = "left";
 buttonContainer.style.marginLeft = "auto";
 buttonContainer.style.marginRight = "auto";
 buttonContainer.style.display = "block";
@@ -228,6 +229,7 @@ function goToHighScoresFromStart() {
         document.body.removeChild(viewHighScoresPTag);
         document.body.removeChild(startQuizButton);
         document.body.removeChild(p1Tag);
+        h1Tag.style.textAlign = "left";
         title.textContent = "High Scores";
 
         renderHighScoresList();
@@ -256,6 +258,7 @@ function goBackToStart() {
     document.body.appendChild(startQuizButton);
     document.body.appendChild(viewHighScoresPTag);
     document.body.appendChild(timerPTag);
+    h1Tag.style.textAlign = "center";
     title.textContent = "Coding Quiz Challenge";
     viewHighScoresPTag.setAttribute("id", "viewHighScoresFromStart");
     timerPTag.textContent = "Time: " + "0";
@@ -308,7 +311,7 @@ function goToHighScoresFromQuiz() {
         document.body.removeChild(h2TagContainer);
         document.body.removeChild(timerPTag);
         document.body.removeChild(viewHighScoresPTag);
-
+        h1Tag.style.textAlign = "left";
         document.body.appendChild(h1Tag);
 
         title.textContent = "High Scores";
@@ -335,6 +338,7 @@ function renderHighScoresList() {
         var liTag = document.createElement("li");
         var textNode = document.createTextNode(j + ". " + highScoresNames[i] + " - " + highScores[i]);
         liTag.setAttribute("data-index-scores", i);
+        liTag.style.backgroundColor = "rgb(239, 231, 247)";
 
         document.body.appendChild(highScoresUlTag);
         highScoresUlTag.appendChild(liTag);
@@ -395,6 +399,7 @@ function userTakesTest() {
             }
 
             if (countdown <= 0) {
+                timerPTag.textContent = "Time: " + 0;
                 clearInterval(timerInterval);
                 console.log(score + " time interval");
                 allDonePage(score);
