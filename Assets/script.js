@@ -41,6 +41,19 @@ p2Tag.textContent = "";
 p2Tag.style.textAlign = "left";
 p2Tag.setAttribute("id", "p2Tag")
 
+// form for all done page
+var allDoneForm = document.createElement("form");
+allDoneForm.setAttribute("method", "post");
+allDoneForm.setAttribute("id", "allDoneForm")
+allDoneForm.textContent = "Enter initials:"
+
+var allDoneInput = document.createElement("input");
+allDoneInput.setAttribute("id", "allDoneInput")
+
+var allDoneButton = document.createElement("button");
+allDoneButton.setAttribute("id", "submit");
+allDoneButton.textContent = "Submit";
+
 // Start Quiz button
 var startQuizButton = document.createElement("button");
 startQuizButton.textContent = "Start Quiz";
@@ -267,19 +280,21 @@ var clickStartQuiz = document.querySelector("#startQuiz");
 clickStartQuiz.addEventListener("click", userTakesTest);
 
 function userTakesTest() {
+    console.log("user takes test started");
+
     document.body.removeChild(startQuizButton);
     document.body.removeChild(p1Tag);
     document.body.removeChild(h1Tag);
 
     var score = 0;
-
     let i = 0;
-    // set timer to 50
     let countdown = 50;
     let status = false;
+
     timerPTag.textContent = "Time: " + countdown--;
     createQuestionButtons(i);
     i++;
+
     if (document.querySelector("#p2Tag")) {
         console.log("p2tag test to remove in user takes test function");
         h2TagInsideContainer.removeChild(p2Tag);
@@ -300,7 +315,6 @@ function userTakesTest() {
                 allDonePage(score);
                 console.log("test clearInterval for countdown");
                 i = 0;
-
                 return;
             }
 
@@ -342,9 +356,7 @@ function userTakesTest() {
                 status = false;
             }
         }
-        // console.log("Your score is " + score + ".");
     });
-
 
     // clickViewHighScoresFromQuiz
     viewHighScoresPTag.setAttribute("id", "viewHighScoresFromQuiz");
@@ -353,7 +365,7 @@ function userTakesTest() {
     clickViewHighScoresFromQuiz.addEventListener("click", function () {
         clearInterval(timerInterval);
     });
-    console.log(score + " end of quiz function");
+    console.log(score + " is the score at end of quiz function");
 }
 
 function allDonePage(x) {
@@ -361,25 +373,16 @@ function allDonePage(x) {
     while (answerUlTag.hasChildNodes()) {
         answerUlTag.removeChild(answerUlTag.childNodes[0]);
     }
-
     if (document.querySelector("#correctOrWrongPTag")) {
         h2TagInsideContainer.removeChild(correctOrWrongPTag);
     }
-    if (document.querySelector("#p2Tag")) {
-        console.log("p2tag test to remove in all done page");
-        h2TagInsideContainer.removeChild(p2Tag);
-    }
 
     h2Tag.textContent = "All done!";
-
-    console.log(x + " all done before");
-
     p2Tag.textContent = "Your final score is " + x;
-    // reset x
-    x = 0;
-    console.log(x + " all done after");
 
     h2TagInsideContainer.appendChild(h2Tag);
     h2TagInsideContainer.appendChild(p2Tag);
-
+    h2TagInsideContainer.appendChild(allDoneForm);
+    allDoneForm.appendChild(allDoneInput);
+    allDoneForm.appendChild(allDoneButton);
 }
