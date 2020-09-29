@@ -220,7 +220,6 @@ function goBackToStart() {
     // this if statement tests to ensure that the high scores list is removed from display 
     if (document.querySelector("#highScoresUlTag")) {
         document.body.removeChild(highScoresUlTag);
-        console.log("test to see if highScoresUlTag is removed");
     }
 
     // remove elements that aren't on the starting page
@@ -258,13 +257,12 @@ function userTakesQuiz() {
     i++;
     // this if statement tests to make sure the text showing the user's final score is removed if the user decides to take the quiz again
     if (document.querySelector("#p2Tag")) {
-        console.log("test to remove p2Tag when quiz start");
         h2UlTagContainer.removeChild(p2Tag);
     }
     // this if statement tests to make sure the form is removed
     if (document.querySelector("#allDoneForm")) {
         h2UlTagContainer.removeChild(allDoneForm);
-        console.log("test to remove form when quiz start")
+
     }
     // interval function 
     var timerInterval = setInterval(function () {
@@ -297,7 +295,6 @@ function userTakesQuiz() {
             var index = element.parentElement.getAttribute("data-index");
             // test if correct and if so, add to score and set status to true so that the next question can be rendered
             if (element.textContent === questionsAndAnswers[index].answer) {
-                console.log("correct!");
                 correctOrWrongPTag.textContent = "Correct!";
                 h2UlTagContainer.appendChild(correctOrWrongPTag);
                 score += 5;
@@ -310,7 +307,7 @@ function userTakesQuiz() {
                     return; // return to make sure this function is no longer running
                 }
             } else {
-                console.log("wrong");
+
                 countdown -= 5;
                 correctOrWrongPTag.textContent = "Wrong!";
                 h2UlTagContainer.appendChild(correctOrWrongPTag);
