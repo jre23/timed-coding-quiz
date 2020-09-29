@@ -192,7 +192,6 @@ clickStartQuiz.addEventListener("click", userTakesQuiz);
 function goToHighScoresFromStart() {
     // this if statement tests to ensure that this function runs only when the user clicks on the view high scores link from the starting page 
     if (viewHighScoresPTag.id === "viewHighScoresFromStart") {
-
         // remove elements that aren't on the high scores page
         document.body.removeChild(timerPTag);
         document.body.removeChild(viewHighScoresPTag);
@@ -201,19 +200,15 @@ function goToHighScoresFromStart() {
         // change title from Coding Quiz Challenge to High Scores and align the text left 
         h1Tag.style.textAlign = "left";
         title.textContent = "High Scores";
-
         // call the renderHighScoresList function to create the high scores list 
         renderHighScoresList();
-
         // add the go back and clear high scores button elements 
         document.body.appendChild(buttonContainer);
         buttonContainer.appendChild(goBackButton);
         buttonContainer.appendChild(clearHighScoresButton);
-
         // event listener for when the user clicks the go back button 
         var clickGoBack = document.querySelector("#goBack");
         clickGoBack.addEventListener("click", goBackToStart);
-
         // event listener for when the user clicks the clear high scores button 
         var clickClearHighScores = document.querySelector("#clearHighScores");
         clickClearHighScores.addEventListener("click", clearHighScores);
@@ -300,7 +295,7 @@ function userTakesQuiz() {
         if (element.matches("button")) {
             // this index variable gets the data-index of the button so that the button's text content can be compared to the correct answer in the questionsAndAnswers array 
             var index = element.parentElement.getAttribute("data-index");
-            // test if correct 
+            // test if correct and if so, add to score and set status to true so that the next question can be rendered
             if (element.textContent === questionsAndAnswers[index].answer) {
                 console.log("correct!");
                 correctOrWrongPTag.textContent = "Correct!";
@@ -329,7 +324,6 @@ function userTakesQuiz() {
             }
         }
     });
-
     // event listener for when the user clicks the view high scores link during the quiz. The click will send the user to the high scores page and also end the quiz
     viewHighScoresPTag.setAttribute("id", "viewHighScoresFromQuiz");
     var clickViewHighScoresFromQuiz = document.querySelector("#viewHighScoresFromQuiz");
@@ -366,77 +360,82 @@ function createQuestionButtons(i) {
     h2UlTagContainer.appendChild(answerUlTag);
 }
 
-
+// this function renders the all done page when the quiz ends. It takes in one argument passed from the userTakesQuiz function which represents the user's score
 function allDonePage(x) {
-    console.log("test allDonePage function call " + x);
+    // this while loop removes the previous answer buttons so it's clear for the next set of buttons
     while (answerUlTag.hasChildNodes()) {
         answerUlTag.removeChild(answerUlTag.childNodes[0]);
     }
+    // this if statement tests to make sure the correct/wrong pop up goes away
     if (document.querySelector("#correctOrWrongPTag")) {
         h2UlTagContainer.removeChild(correctOrWrongPTag);
     }
-
+    // display all done text, score, and form to the user 
     h2Tag.textContent = "All done!";
     p2Tag.textContent = "Your final score is " + x;
-
     h2UlTagContainer.appendChild(h2Tag);
     h2UlTagContainer.appendChild(p2Tag);
     h2UlTagContainer.appendChild(allDoneForm);
     allDoneForm.appendChild(allDoneInput);
     allDoneForm.appendChild(allDoneButton);
-
+    // add the score to the highScores array to save user progress 
     highScores.push(x);
-
+    // event listener for when the user clicks the submit button after entering their initials.
     var submitEl = document.querySelector("#submit");
     submitEl.addEventListener("click", function (event) {
         event.preventDefault();
+        // this if statement tests to make sure the user cannot input an empty string
         if (allDoneInput.value.trim() === "") {
             return;
         }
+        // add user input to highScoresInitials array for saving
         highScoresInitials.push(allDoneInput.value.trim());
-        goToHighScoresFromQuiz();
-        allDoneInput.value = "";
+        goToHighScoresFromQuiz(); // this takes the user to the high scores list after clicking submit
+        allDoneInput.value = ""; // clear the input field on the form
     });
 }
 
+// this function is called when the user clicks the view high scores link during the quiz 
 function goToHighScoresFromQuiz() {
+    // this if statement tests to ensure that this function runs only when the user clicks on the view high scores link from the quiz
     if (viewHighScoresPTag.id === "viewHighScoresFromQuiz") {
-
+        // this while loop removes the answer buttons
         while (answerUlTag.hasChildNodes()) {
             answerUlTag.removeChild(answerUlTag.childNodes[0]);
         }
-
+        // remove elements that aren't on the high scores page
         h2UlTagContainer.removeChild(h2Tag);
         document.body.removeChild(h2UlTagContainer);
         document.body.removeChild(timerPTag);
         document.body.removeChild(viewHighScoresPTag);
+        // change title to High Scores and align the text left 
         h1Tag.style.textAlign = "left";
         document.body.appendChild(h1Tag);
-
         title.textContent = "High Scores";
-
+        // call the renderHighScoresList function to create the high scores list 
         renderHighScoresList();
-
+        // add the go back and clear high scores button elements 
         document.body.appendChild(buttonContainer);
         buttonContainer.appendChild(goBackButton);
         buttonContainer.appendChild(clearHighScoresButton);
-
+        // event listener for when the user clicks the go back button 
         var clickGoBack = document.querySelector("#goBack");
         clickGoBack.addEventListener("click", goBackToStart);
-
+        // event listener for when the user clicks the clear high scores button 
         var clickClearHighScores = document.querySelector("#clearHighScores");
         clickClearHighScores.addEventListener("click", clearHighScores);
     }
 }
 
+// this function is called when the high scores page is to be displayed
 function renderHighScoresList() {
-    console.log("test for renderHighScoresList function call");
+    // clear it out first
     highScoresUlTag.innerHTML = "";
+    // then create it using the highScoresInitials and highScores arrays to display data that has been saved from previous quiz takes 
     let j = 1;
     for (let i = 0; i < highScoresInitials.length; i++) {
         var liTag = document.createElement("li");
         var textNode = document.createTextNode(j + ". " + highScoresInitials[i] + " - " + highScores[i]);
-        // liTag.setAttribute("data-index-scores", i);
         liTag.style.backgroundColor = "rgb(239, 231, 247)";
         document.body.appendChild(highScoresUlTag);
         highScoresUlTag.appendChild(liTag);
@@ -445,8 +444,9 @@ function renderHighScoresList() {
     }
 }
 
+// this function is called when the user clicks the clear high scores button
 function clearHighScores() {
-    console.log("test clearHighScores function call");
+    // the list is cleared by clearing the two arrays and rendering the list
     highScoresInitials = [];
     highScores = [];
     renderHighScoresList();
