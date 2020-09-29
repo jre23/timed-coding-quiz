@@ -12,15 +12,15 @@ The goal for this project was to build a timed coding quiz with multiple choice 
 
 ## Screenshots:
 
-![timed coding quiz screenshot 1](https://user-images.githubusercontent.com/69170823/94403962-130c7a00-0123-11eb-96a8-f0623832206a.png)
+![timed coding quiz screenshot 1](https://user-images.githubusercontent.com/69170823/94609090-36364700-0253-11eb-8c19-b1e624aff100.png)
 
-![timed coding quiz screenshot 2](https://user-images.githubusercontent.com/69170823/94404040-31727580-0123-11eb-968a-6039894fe751.png)
+![timed coding quiz screenshot 2](https://user-images.githubusercontent.com/69170823/94609249-549c4280-0253-11eb-8c9c-7fa1c714002b.png)
 
-![timed coding quiz screenshot 3](https://user-images.githubusercontent.com/69170823/94404109-4cdd8080-0123-11eb-82ed-7c9db0660f4e.png)
+![timed coding quiz screenshot 3](https://user-images.githubusercontent.com/69170823/94609302-6978d600-0253-11eb-98f9-f07106359d61.png)
 
-![timed coding quiz screenshot 4](https://user-images.githubusercontent.com/69170823/94404181-6c74a900-0123-11eb-8240-30d5735a55db.png)
+![timed coding quiz screenshot 4](https://user-images.githubusercontent.com/69170823/94609423-9d53fb80-0253-11eb-8f6b-74bc7474e780.png)
 
-![timed coding quiz screenshot 5](https://user-images.githubusercontent.com/69170823/94404218-7dbdb580-0123-11eb-844f-f3f29debddbc.png)
+![timed coding quiz screenshot 5](https://user-images.githubusercontent.com/69170823/94609485-b3fa5280-0253-11eb-8438-6cea2075b260.png)
 
 ## Installation
 
