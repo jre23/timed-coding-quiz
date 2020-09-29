@@ -262,7 +262,10 @@ function userTakesQuiz() {
     // this if statement tests to make sure the form is removed
     if (document.querySelector("#allDoneForm")) {
         h2UlTagContainer.removeChild(allDoneForm);
-
+    }
+    // this if statement tests to make sure the correct/wrong pop up goes away
+    if (document.querySelector("#correctOrWrongPTag")) {
+        h2UlTagContainer.removeChild(correctOrWrongPTag);
     }
     // interval function 
     var timerInterval = setInterval(function () {
@@ -307,7 +310,6 @@ function userTakesQuiz() {
                     return; // return to make sure this function is no longer running
                 }
             } else {
-
                 countdown -= 5;
                 correctOrWrongPTag.textContent = "Wrong!";
                 h2UlTagContainer.appendChild(correctOrWrongPTag);
