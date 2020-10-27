@@ -1,16 +1,26 @@
 # Timed Coding Quiz
 
+## Table of Contents
+
+1. [Description](#Description)
+2. [GitHub Repo and Deployment](#GitHub-Repo-and-Deployment)
+3. [Screenshots](#Screenshots)
+4. [Technologies](#Technologies)
+5. [Installation](#Installation)
+6. [Usage](#Usage)
+7. [Credits](#Credits)
+
 ## Description
 
 The goal for this project was to build a timed coding quiz with multiple choice questions. The quiz runs in the browser and was built using DOM manipulation via JavaScript. The quiz features a countdown timer and a high scores list that the user may view at any time and may also input their initials when the quiz ends.
 
-## Check it out here! 
+## GitHub Repo and Deployment
 
 [GitHub repo](https://github.com/jre23/timed-coding-quiz)
 
 [Deployed on GitHub pages](https://jre23.github.io/timed-coding-quiz)
 
-## Screenshots:
+## Screenshots
 
 ![timed coding quiz screenshot 1](https://user-images.githubusercontent.com/69170823/94609090-36364700-0253-11eb-8c19-b1e624aff100.png)
 
@@ -21,6 +31,14 @@ The goal for this project was to build a timed coding quiz with multiple choice 
 ![timed coding quiz screenshot 4](https://user-images.githubusercontent.com/69170823/94609423-9d53fb80-0253-11eb-8f6b-74bc7474e780.png)
 
 ![timed coding quiz screenshot 5](https://user-images.githubusercontent.com/69170823/94609485-b3fa5280-0253-11eb-8438-6cea2075b260.png)
+
+## Technologies
+
+Please see the following for a list of technologies used in this project:
+
+* HTML
+* CSS
+* JavaScript
 
 ## Installation
 
